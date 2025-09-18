@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Search</title>
+  <meta name="description" content="Ultra‑light single‑file search page" />
+  <link rel="icon" href="data:," />
+  <style>
+    :root {
+      --ring: 2px;
+      --radius: 9999px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font: 16px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: #111;
+      background: #fff;
+      display: grid;
+      place-items: center;
+    }
+
+    .wrap {
+      width: min(92vw, 680px);
+      display: grid;
+      gap: 20px;
+      justify-items: center;
+    }
+
+    .visually-hidden {
+      position: absolute !important;
+      height: 1px; width: 1px;
+      overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
+      white-space: nowrap; clip-path: inset(50%);
+    }
+
+    form { width: 100%; }
+
+    .search {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: var(--radius);
+      padding: 10px 16px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+      transition: box-shadow .15s ease, border-color .15s ease;
+    }
+
+    .search:focus-within {
+      border-color: #d1d5db;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+    }
+
+    input[type="search"] {
+      flex: 1;
+      border: 0;
+      outline: none;
+      font-size: 18px;
+      padding: 6px 4px;
+      min-width: 0;
+    }
+
+    .btn {
+      border: 0;
+      background: transparent;
+      font-size: 14px;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    .btn:focus-visible {
+      outline: var(--ring) solid #2563eb;
+      outline-offset: 2px;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body { color: #f5f5f5; background: #0b0b0c; }
+      .search { background: #111214; border-color: #2a2c31; box-shadow: none; }
+      .search:focus-within { border-color: #3a3d43; box-shadow: 0 0 0 1px rgba(0,0,0,0.3); }
+      .hint { color: #9aa0a6; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap" role="main">
+    <form id="searchForm" autocomplete="off" aria-label="Site search">
+      <label for="q" class="visually-hidden">Search</label>
+      <div class="search">
+        <input id="q" name="q" type="search" placeholder="Design your travel" autofocus inputmode="search" />
+        <button class="btn" type="submit" aria-label="Search">🔎</button>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+        e.preventDefault();
+        document.getElementById('q').focus();
+      }
+    });
+
+    document.getElementById('searchForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const q = new URLSearchParams({ q: document.getElementById('q').value.trim() });
+      if (!q.get('q')) return;
+      alert('Search for: ' + q.get('q'));
+    });
+  </script>
+</body>
+</html>
